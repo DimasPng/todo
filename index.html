@@ -19,10 +19,10 @@
                         </div>
                         <div class="todo__tasks">
                             <form class="todo__addtask">
-                                <input type="text" placeholder="Добавить важных дел" class="todo__add">
-                                <button type="submit" class="todo__plus"></button>
+                                <input type="text" placeholder="Добавить важных дел" class="todo__add" id="input_high">
+                                <button type="submit" class="todo__plus" id="button__high"></button>
                             </form>
-                            <div class="todo__list">
+                            <div class="todo__list" id="list__high">
                                 <!--          <div class="todo__task">
                                               <input class="todo__checkbox" type="checkbox">
                                               <label class="todo__label">Первая задача</label>
@@ -42,20 +42,11 @@
                         </div>
                         <div class="todo__tasks">
                             <form class="todo__addtask">
-                                <input type="text" placeholder="Добавить" class="todo__add">
-                                <button type="submit" class="todo__plus"></button>
+                                <input type="text" placeholder="Добавить" class="todo__add" id="input_low">
+                                <button type="submit" class="todo__plus" id="button_low"></button>
                             </form>
-                            <div class="todo__list">
-                                <div class="todo__task">
-                                    <input class="todo__checkbox" type="checkbox">
-                                    <label class="todo__label">Третья задача</label>
-                                    <div class="todo__plus todo__plus_rotate -delet"></div>
-                                </div>
-                                <div class="todo__task">
-                                    <input class="todo__checkbox" type="checkbox">
-                                    <label class="todo__label">Четвертая задача</label>
-                                    <div class="todo__plus todo__plus_rotate -delet"></div>
-                                </div>
+                            <div class="todo__list" id="list__low">
+
                             </div>
                         </div>
                     </div>

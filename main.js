@@ -2,9 +2,22 @@
 
 const ELEMENT = {
 		FORM_HIGH: document.querySelector('.todo__addtask'),
-		INPUT_HIGH: document.querySelector('.todo__add'),
-		BUTTON_HIGH: document.querySelector('.todo__plus'),
-		LIST_HIGH: document.querySelector('.todo__list'),
+		INPUT_HIGH: document.querySelector('#input_high'),
+		INPUT_LOW: document.querySelector('#input_low'),
+		LIST_HIGH: document.querySelector('#list__high'),
+		LIST_LOW: document.querySelector('#list__low'),
+		BUTTON_HIGH: document.querySelector('#button__high'),
+		BUTTON_LOW: document.querySelector('#button_low'),
+};
+
+const PRIORITY = {
+		HIGH: 'high',
+		LOW: 'low',
+};
+
+const STATUS = {
+		TO_DO: 'to_do',
+		DONE: 'done',
 };
 
 let listHigh = new Set();
@@ -14,13 +27,28 @@ ELEMENT.FORM_HIGH.onsubmit = function (event) {
 		event.preventDefault();
 };
 
-ELEMENT.BUTTON_HIGH.addEventListener('click', addHighTask);
+ELEMENT.BUTTON_HIGH.addEventListener('click', () => {
+		addHighTask(PRIORITY.HIGH);
+});
+ELEMENT.BUTTON_LOW.addEventListener('click', () => {
+		addHighTask(PRIORITY.LOW);
+});
 
-function addHighTask() {
-		listHigh.add(ELEMENT.INPUT_HIGH.value);
-		arrayListHigh = [...listHigh];
-		localStorage.setItem('listHigh', JSON.stringify(arrayListHigh));
-		render();
+function addHighTask(priority) {
+		if (ELEMENT.INPUT_HIGH.value === '' && ELEMENT.INPUT_LOW.value === '') {
+				alert('Добавьте задачу. Поле не должно быть пустым');
+				return;
+		} else {
+				listHigh.add({
+						name: ELEMENT.INPUT_HIGH.value ? ELEMENT.INPUT_HIGH.value : ELEMENT.INPUT_LOW.value,
+						status: STATUS.TO_DO,
+						priority,
+				});
+				console.log(listHigh);
+				arrayListHigh = [...listHigh];
+				localStorage.setItem('listHigh', JSON.stringify(arrayListHigh));
+				render();
+		}
 }
 
 function render() {
@@ -28,13 +56,15 @@ function render() {
 		listHigh = new Set([...arrayListHigh]);
 
 		ELEMENT.LIST_HIGH.innerHTML = '';
+		ELEMENT.LIST_LOW.innerHTML = '';
 		ELEMENT.INPUT_HIGH.value = '';
+		ELEMENT.INPUT_LOW.value = '';
 
 
 		for (let task of arrayListHigh) {
-
 				const ELEMENT = {
-						TODO_LIST: document.querySelector('.todo__list'),
+						LIST_HIGH: document.querySelector('#list__high'),
+						LIST_LOW: document.querySelector('#list__low'),
 						TODO_TASK: document.createElement('div'),
 						INPUT: document.createElement('input'),
 						LABEL: document.createElement('label'),
@@ -47,15 +77,17 @@ function render() {
 				ELEMENT.LABEL.setAttribute('class', 'todo__label');
 				ELEMENT.PLUS.setAttribute('class', 'todo__plus todo__plus_rotate -delet" id="#todo_plus');
 
-				ELEMENT.LABEL.textContent = task;
+				ELEMENT.LABEL.textContent = task.name;
 				ELEMENT.PLUS.addEventListener('click', () => {
 						deleteTask(task);
 				});
 
-				ELEMENT.TODO_LIST.prepend(ELEMENT.TODO_TASK);
-				ELEMENT.TODO_TASK.prepend(ELEMENT.INPUT);
-				ELEMENT.TODO_TASK.append(ELEMENT.LABEL);
-				ELEMENT.TODO_TASK.append(ELEMENT.PLUS);
+				if (task.priority === PRIORITY.HIGH) {
+						ELEMENT.LIST_HIGH.prepend(ELEMENT.TODO_TASK);
+				} else {
+						ELEMENT.LIST_LOW.prepend(ELEMENT.TODO_TASK);
+				}
+				ELEMENT.TODO_TASK.prepend(ELEMENT.INPUT, ELEMENT.LABEL, ELEMENT.PLUS);
 		}
 }
 
