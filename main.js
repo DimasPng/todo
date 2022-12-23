@@ -20,8 +20,8 @@ const STATUS = {
 		DONE: 'done',
 };
 
-let listHigh = new Set();
-let arrayListHigh = JSON.parse(localStorage.getItem('listHigh'));
+let localStorageData = JSON.parse(localStorage.getItem('listOfCities'));
+let listOfCities = localStorageData ? localStorageData : [];
 
 ELEMENT.FORM_HIGH.onsubmit = function (event) {
 		event.preventDefault();
@@ -39,29 +39,25 @@ function addHighTask(priority) {
 				alert('Добавьте задачу. Поле не должно быть пустым');
 				return;
 		} else {
-				listHigh.add({
+				listOfCities.push({
 						name: ELEMENT.INPUT_HIGH.value ? ELEMENT.INPUT_HIGH.value : ELEMENT.INPUT_LOW.value,
 						status: STATUS.TO_DO,
 						priority,
 				});
-				console.log(listHigh);
-				arrayListHigh = [...listHigh];
-				localStorage.setItem('listHigh', JSON.stringify(arrayListHigh));
+				localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
 				render();
 		}
 }
 
 function render() {
-		if (arrayListHigh === null) return;
-		listHigh = new Set([...arrayListHigh]);
 
 		ELEMENT.LIST_HIGH.innerHTML = '';
 		ELEMENT.LIST_LOW.innerHTML = '';
 		ELEMENT.INPUT_HIGH.value = '';
 		ELEMENT.INPUT_LOW.value = '';
 
-
-		for (let task of arrayListHigh) {
+		if (listOfCities.length === 0) return;
+		for (let task of listOfCities) {
 				const ELEMENT = {
 						LIST_HIGH: document.querySelector('#list__high'),
 						LIST_LOW: document.querySelector('#list__low'),
@@ -92,9 +88,9 @@ function render() {
 }
 
 function deleteTask(task) {
-		listHigh.delete(task);
-		arrayListHigh = [...listHigh];
-		localStorage.setItem('listHigh', JSON.stringify(arrayListHigh));
+		const index = listOfCities.findIndex(item => item.name === task.name);
+		listOfCities.splice(index, 1);
+		localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
 		render();
 }
 
