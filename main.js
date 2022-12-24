@@ -1,5 +1,7 @@
 'use strict';
 
+window.addEventListener('DOMContentLoaded', render);
+
 const ELEMENT = {
 		FORM_HIGH: document.querySelector('.todo__addtask'),
 		INPUT_HIGH: document.querySelector('#input_high'),
@@ -29,9 +31,13 @@ ELEMENT.FORM_HIGH.onsubmit = function (event) {
 
 ELEMENT.BUTTON_HIGH.addEventListener('click', () => {
 		addHighTask(PRIORITY.HIGH);
+		clearToDoList();
+		render();
 });
 ELEMENT.BUTTON_LOW.addEventListener('click', () => {
 		addHighTask(PRIORITY.LOW);
+		clearToDoList();
+		render();
 });
 
 function addHighTask(priority) {
@@ -45,16 +51,17 @@ function addHighTask(priority) {
 						priority,
 				});
 				localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
-				render();
 		}
 }
 
-function render() {
-
+function clearToDoList() {
 		ELEMENT.LIST_HIGH.innerHTML = '';
 		ELEMENT.LIST_LOW.innerHTML = '';
 		ELEMENT.INPUT_HIGH.value = '';
 		ELEMENT.INPUT_LOW.value = '';
+}
+
+function render() {
 
 		if (listOfCities.length === 0) return;
 		for (let task of listOfCities) {
@@ -74,8 +81,11 @@ function render() {
 				ELEMENT.PLUS.setAttribute('class', 'todo__plus todo__plus_rotate -delet" id="#todo_plus');
 
 				ELEMENT.LABEL.textContent = task.name;
+
 				ELEMENT.PLUS.addEventListener('click', () => {
 						deleteTask(task);
+						clearToDoList();
+						render();
 				});
 
 				if (task.priority === PRIORITY.HIGH) {
@@ -91,7 +101,4 @@ function deleteTask(task) {
 		const index = listOfCities.findIndex(item => item.name === task.name);
 		listOfCities.splice(index, 1);
 		localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
-		render();
 }
-
-render();
