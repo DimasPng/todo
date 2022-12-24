@@ -4,6 +4,8 @@ window.addEventListener('DOMContentLoaded', render);
 
 const ELEMENT = {
 		FORM: document.querySelector('.todo__addtask'),
+		FORM_HIGH: document.querySelector('#form_high'),
+		FORM_LOW: document.querySelector('#form_low'),
 		INPUT_HIGH: document.querySelector('#input_high'),
 		INPUT_LOW: document.querySelector('#input_low'),
 		LIST_HIGH: document.querySelector('#list__high'),
@@ -29,12 +31,12 @@ ELEMENT.FORM.onsubmit = function (event) {
 		event.preventDefault();
 };
 
-ELEMENT.BUTTON_HIGH.addEventListener('click', (event) => {
+ELEMENT.FORM_HIGH.addEventListener('submit', (event) => {
 		addHighTask(PRIORITY.HIGH, event);
 		clearToDoList();
 		render();
 });
-ELEMENT.BUTTON_LOW.addEventListener('click', (event) => {
+ELEMENT.FORM_LOW.addEventListener('submit', (event) => {
 		addHighTask(PRIORITY.LOW, event);
 		clearToDoList();
 		render();
