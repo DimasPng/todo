@@ -3,7 +3,7 @@
 window.addEventListener('DOMContentLoaded', render);
 
 const ELEMENT = {
-		FORM_HIGH: document.querySelector('.todo__addtask'),
+		FORM: document.querySelector('.todo__addtask'),
 		INPUT_HIGH: document.querySelector('#input_high'),
 		INPUT_LOW: document.querySelector('#input_low'),
 		LIST_HIGH: document.querySelector('#list__high'),
@@ -25,22 +25,23 @@ const STATUS = {
 let localStorageData = JSON.parse(localStorage.getItem('listOfCities'));
 let listOfCities = localStorageData ? localStorageData : [];
 
-ELEMENT.FORM_HIGH.onsubmit = function (event) {
+ELEMENT.FORM.onsubmit = function (event) {
 		event.preventDefault();
 };
 
-ELEMENT.BUTTON_HIGH.addEventListener('click', () => {
-		addHighTask(PRIORITY.HIGH);
+ELEMENT.BUTTON_HIGH.addEventListener('click', (event) => {
+		addHighTask(PRIORITY.HIGH, event);
 		clearToDoList();
 		render();
 });
-ELEMENT.BUTTON_LOW.addEventListener('click', () => {
-		addHighTask(PRIORITY.LOW);
+ELEMENT.BUTTON_LOW.addEventListener('click', (event) => {
+		addHighTask(PRIORITY.LOW, event);
 		clearToDoList();
 		render();
 });
 
-function addHighTask(priority) {
+function addHighTask(priority, event) {
+		console.log(event.target.value);
 		if (ELEMENT.INPUT_HIGH.value === '' && ELEMENT.INPUT_LOW.value === '') {
 				alert('Добавьте задачу. Поле не должно быть пустым');
 				return;
@@ -64,6 +65,7 @@ function clearToDoList() {
 function render() {
 
 		if (listOfCities.length === 0) return;
+
 		for (let task of listOfCities) {
 				const ELEMENT = {
 						LIST_HIGH: document.querySelector('#list__high'),
