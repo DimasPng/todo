@@ -41,7 +41,7 @@ ELEMENT.BUTTON_LOW.addEventListener('click', (event) => {
 });
 
 function addHighTask(priority, event) {
-		console.log(event.target.value);
+		console.log(event.target.value); //Как получить значение input.value?
 		if (ELEMENT.INPUT_HIGH.value === '' && ELEMENT.INPUT_LOW.value === '') {
 				alert('Добавьте задачу. Поле не должно быть пустым');
 				return;
