@@ -47,12 +47,27 @@ function checkTaskForUnique(priority, event) {
 				alert('Добавьте задачу. Поле не должно быть пустым');
 				return;
 		} else {
-				for (let i = 0; i < listOfCities.length; i++) {
-						if (listOfCities[i].name === event.target[0].value) {
-								alert('Задача уже есть в списке.');
+				function checkInputValue(array, i = 0) {
+						if (i === array.length) {
 								return;
+						} else {
+								if (array[i].name === event.target[0].value) {
+										alert('Задача уже есть в списке');
+										return;
+								}
+								i++;
+								checkInputValue(array, i);
 						}
 				}
+
+				checkInputValue(listOfCities);
+
+				// for (let i = 0; i < listOfCities.length; i++) {
+				// 		if (listOfCities[i].name === event.target[0].value) {
+				// 				alert('Задача уже есть в списке.');
+				// 				return;
+				// 		}
+				// }
 		}
 		pushTask(priority, event);
 }
