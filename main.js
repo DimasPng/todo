@@ -32,29 +32,38 @@ ELEMENT.FORM.onsubmit = function (event) {
 };
 
 ELEMENT.FORM_HIGH.addEventListener('submit', (event) => {
-		addHighTask(PRIORITY.HIGH, event);
+		checkTaskForUnique(PRIORITY.HIGH, event);
 		clearToDoList();
 		render();
 });
 ELEMENT.FORM_LOW.addEventListener('submit', (event) => {
-		addHighTask(PRIORITY.LOW, event);
+		checkTaskForUnique(PRIORITY.LOW, event);
 		clearToDoList();
 		render();
 });
 
-function addHighTask(priority, event) {
-		console.log(event.target.value); //Как получить значение input.value?
-		if (ELEMENT.INPUT_HIGH.value === '' && ELEMENT.INPUT_LOW.value === '') {
+function checkTaskForUnique(priority, event) {
+		if (event.target[0].value === '') {
 				alert('Добавьте задачу. Поле не должно быть пустым');
 				return;
 		} else {
-				listOfCities.push({
-						name: ELEMENT.INPUT_HIGH.value ? ELEMENT.INPUT_HIGH.value : ELEMENT.INPUT_LOW.value,
-						status: STATUS.TO_DO,
-						priority,
-				});
-				localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
+				for (let i = 0; i < listOfCities.length; i++) {
+						if (listOfCities[i].name === event.target[0].value) {
+								alert('Задача уже есть в списке.');
+								return;
+						}
+				}
 		}
+		pushTask(priority, event);
+}
+
+function pushTask(priority, event) {
+		listOfCities.push({
+				name: event.target[0].value,
+				status: STATUS.TO_DO,
+				priority,
+		});
+		localStorage.setItem('listOfCities', JSON.stringify(listOfCities));
 }
 
 function clearToDoList() {
